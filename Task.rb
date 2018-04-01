@@ -4,53 +4,53 @@ require "Date"
 class Task
 	include Comparable
 
-	attr_reader :id, :description, :complete, :expiration_date
-	def initialize(id,description,expiration_date=nil)
+	attr_reader :id, :description, :complete, :expiration_date, :group
+	def initialize(id,description,expiration_date=nil,group="")
 		@description=description
 		@id=id
 		@complete=0  #usamos un integer en vez de un boolean porque integer tiene implementado el metodo <=> (spaceship) y boolean no.
-		if(expiration_date=="tomorrow")
-			@expiration_date=Date.today+1
-		elsif(expiration_date=="today")
-			@expiration_date==Date.today
-		else
-			@expiration_date=expiration_date
-		end
+		@expiration_date=expiration_date
+		@group=group
 	end
 	
-	def completed()
+	def completed
 		@complete=1
 	end
 	def to_s
-		"#{@id}["+(@complete==1? "x":" ")+"] %10s #{@description}" % [@expiration_date]
+		"#{@id}["+(@complete==1? "x":" ")+"]  %10s  #{@group} #{@description}" %(date_to_str)
 	end
-
 	def ==(other)
 		return false unless other.is_a?(Task)
 		@id==other.id
 	end
 	def <=>(other)
 		return nil unless other.is_a?(Task)
-		c=@complete<=>other.complete 
+		c=@complete<=>other.complete
 		if(c==0)
-			c=@id<=>other.id
+			if(@expiration_date==nil && other.expiration_date!=nil)
+				c=-1
+			elsif(other.expiration_date==nil && @expiration_date!=nil)
+				c=1
+			else
+				c=@id<=>other.id
+			end
 		end
 		c
 	end
-end
-
-set = SortedSet.new()
-task4=Task.new(4,"bsd")
-task3=Task.new(3,"asd", "tomorrow")
-task1=Task.new(1,"Hacer La Tarea")
-task2=Task.new(2,"No hacer la tarea")
-task3.completed()
-set.add(task1)
-set.add(task2)
-set.add(task3)
-set.add(task4)
-set.each do |x|
-puts x
+	def to_s_without_group
+		"#{@id}["+(@complete==1? "x":" ")+"]  %10s  #{@description}" %(date_to_str)
+	end
+	private def date_to_str()
+		str=@expiration_date.to_s
+		if(@expiration_date==Date.today)
+			str="today"
+		elsif(@expiration_date==Date.today-1)
+			str="yesterday"
+		elsif(@expiration_date==Date.today+1)
+			str="tomorrow"
+		end
+		str
+	end
 end
 
 
