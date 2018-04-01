@@ -1,7 +1,7 @@
 require "set"
 require "date"
 
-class task_holder
+class Task_holder
 	def initialize 
 		@set = SortedSet.new()
 		@id=1
@@ -13,20 +13,23 @@ class task_holder
 		@set.add(new_task)
 		puts "Todo [#{@id}: #{description}] added."
 		@id +=1
+		self
 	end
 	def list
 		puts "All"
-		@set.each do {|task| tasl.to_s}
+		@set.each {|task| task.to_s}
 		end
-	end
 	def complete (id)
-		if id<=@id then @set.each do |task|
-			if task.id == id then
-				task.complete 
-				puts "Todo [#{task.id}: #{task.description}] completed."
+		if id<=@id then 
+			@set.each do |task|
+				if task.id == id then
+					task.completed 
+					puts "Todo [#{task.id}: #{task.description}] completed."
+				end
 			end
 		else puts "invalid task"
 		end
+		self
 	end
 	def ac
 		@set.each {|task| task=nil if task.complete?}
@@ -34,18 +37,27 @@ class task_holder
 	def list_due (up_to)
 	puts "all"
 		@set.each do |task|
-		puts "task.to_s" if ((task.date <=> (up_to + 1) == -1) && (task.date <=> (date.today - 1) == 1))
+		puts "task.to_s" if (((task.date <=> (up_to + 1)) == -1) && ((task.date <=> (date.today - 1)) == 1))
 		end
 	end
 	def list_overdue
 		@set.each do |task|
-		puts "task.to_s" if (task.date <=> (date.today - 1) == -1)
+		puts "task.to_s" if ((task.date <=> (date.today - 1)) == -1)
 		end
 	end
-	def list_group (group)
+	def list_by_group (group)
 		puts "#{group}"
 		@set.each do |task|
-		puts "task.to_s" if task.group == group
+		puts "task.to_s_without_group" if task.group == group
+		end
+	end
+	def list_group
+		group = Array.new()
+		@set.each do |task|
+			unless group.include? task.group then
+			list_by_group (task.group)
+			group.add (task.group)
+			end
 		end
 	end
 	def savefile
@@ -65,4 +77,5 @@ class task_holder
 		puts task.to_s if task.include? text
 		end
 	end
-end	
+end
+
