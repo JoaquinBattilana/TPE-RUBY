@@ -14,9 +14,9 @@ class RegExp
 				'tarea con grupo'
 			elsif(/add [a-zA-Z]+$/ =~ arg)
 				'tarea normal'
-			elsif (/add [a-zA-Z]+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9]))$/ =~ arg)
+			elsif (/add [a-zA-Z]+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ arg)
 				'tarea con fecha'
-			elsif(/add \+[a-zA-Z]+ [a-zA-Z]+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9]))$/ =~ arg)
+			elsif(/add \+[a-zA-Z]+ [a-zA-Z]+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ arg)
 				'tarea con grupo y fecha'
 			else
 				'Comando no valido'
