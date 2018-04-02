@@ -8,27 +8,27 @@ class RegExp
 	end
 
 	def lets_see(arg)
-		if (/add [a-zA-Z]+|\+/ =~ arg)
+		if (/^add [a-zA-Z]+|\+/ =~ arg)
 			'entra aca'
-			if (/add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ arg)
+			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ arg)
 				'tarea con grupo'
-			elsif(/add [a-zA-Z]+$/ =~ arg)
+			elsif(/^add [a-zA-Z]+$/ =~ arg)
 				'tarea normal'
-			elsif (/add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ arg)
+			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ arg)
 				'tarea con fecha'
-			elsif(/add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ arg)
+			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ arg)
 				'tarea con grupo y fecha'
 			else
 				'Comando no valido'
 			end
-		elsif (/list/ =~ arg)
-			if (/list due (yesterday|today|tomorrow)/ =~ arg)
+		elsif (/^list/ =~ arg)
+			if (/^list due (yesterday|today|tomorrow)/ =~ arg)
 				'lista con fecha'
-			elsif(/list group/ =~ arg)
+			elsif(/^list group/ =~ arg)
 				'lista por grupo'
-			elsif (/list overdue/ =~ arg)
+			elsif (/^list overdue/ =~ arg)
 				'lista vencidas'
-			elsif (/list\s*$/ =~ arg)
+			elsif (/^list\s*$/ =~ arg)
 				'lista forma simple'
 			else
 				'Comando no valido'
