@@ -7,9 +7,8 @@ class RegExp
 		"Esto se usa para probar que onda"
 	end
 
-	def lets_see(arg)
+	def lets_see(arg)		
 		if (/^add [a-zA-Z]+|\+/ =~ arg)
-			'entra aca'
 			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ arg)
 				'tarea con grupo'
 			elsif(/^add [a-zA-Z]+$/ =~ arg)
@@ -41,8 +40,6 @@ class RegExp
 			'se guarda'
 		elsif (/^open [a-zA-Z]+\s*$/ =~ arg)
 			'se abre'
-		elsif (/^exit\s*$/ =~ arg)
-			'se sale del programa'
 		else	
 			'Comando no valido'
 		end
@@ -50,28 +47,9 @@ class RegExp
 end
 
 
-#------------------AREA DE TESTING/IMPLEMENTACION--------------------
-
-
-#ahora esta todo hardcodeado, pero la idea es que vean
-#como seria y despues implementamos el gets, etc.
-line1 = 'add tarea'
-line2 = 'add otra tarea due tomorrow'
-line3 = 'add +poo terminar tp'
-line4 = 'list'
-line5 = 'list due tomorrow'
-line6 = 'complete 1'
-line7 = 'complete 12sdfasgasg'
-line8 = 'save filename'
-line9 = 'exit'
-
-check=RegExp.new				
-puts check.lets_see(line1) 
-puts check.lets_see(line2) 
-puts check.lets_see(line3) 
-puts check.lets_see(line4) 
-puts check.lets_see(line5) 
-puts check.lets_see(line6) 
-puts check.lets_see(line7) 
-puts check.lets_see(line8) 
-puts check.lets_see(line9)
+check=RegExp.new
+input = gets.chomp
+while (input !~ /^exit\s*$/) do
+	puts check.lets_see(input)
+	input = gets.chomp
+end
