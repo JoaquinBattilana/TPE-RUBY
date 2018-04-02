@@ -19,7 +19,7 @@ class Input
 		if (/^add [a-zA-Z]+|\+/ =~ input)
 			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input)
 				#holder.add(arg[2],nil,arg[1])
-			elsif(/^add [a-zA-Z]+$/ =~ input)
+			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input)
 				#holder.add(arg[1],nil,nil)
 			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ input)
 				#holder.add(arg, arg[-1],nil)
