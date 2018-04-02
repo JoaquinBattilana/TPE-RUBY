@@ -1,15 +1,31 @@
 #include Input
-module Input
+class Input
+	def initialize
+	end
+
+	def to_s
+		'Error'
+	end
+
+	#def generate_desc(arg)
+	#	arg.delete(arg[0])
+	#	arg.delete(arg[0])
+	#	arg.delete(arg[-1])
+	#	arg.delete(arg[-1])
+	#	return arg[0] + ' ' + arg[1]
+	#end
+
 	def input_check(holder,input)
 		if (/^add [a-zA-Z]+|\+/ =~ input)
 			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input)
 				#holder.add(arg[2],nil,arg[1])
 			elsif(/^add [a-zA-Z]+$/ =~ input)
 				#holder.add(arg[1],nil,nil)
-			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ arg)
+			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ input)
 				#holder.add(arg, arg[-1],nil)
-			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ arg)
-				#holder.add(arg, arg[-1], arg[1])
+			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ input)
+				#arr = input.split(/\s+/)
+				#holder.add(arr[1],arr[-1], self.generate_desc(arr))
 			else
 				'Comando no valido'
 			end
@@ -39,8 +55,9 @@ module Input
 	end
 end
 
+#command_line = Input.new
 #input = gets.chomp
 #while (input !~ /^exit\s*$/) do
-#	puts Input.input_check(holder,input)
+#	puts command_line.input_check(holder,input)
 #	input = gets.chomp
 #end 
