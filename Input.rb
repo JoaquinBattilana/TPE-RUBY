@@ -1,7 +1,7 @@
 #include Input
 class Input
 	def initialize
-		@arr=nil
+		@arg=nil
 	end
 
 	def to_s
