@@ -1,6 +1,7 @@
 #include Input
 class Input
 	def initialize
+		@arr=nil
 	end
 
 	def to_s
@@ -18,20 +19,24 @@ class Input
 	def input_check(holder,input)
 		if (/^add [a-zA-Z]+|\+/ =~ input)
 			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input)
-				#holder.add(arg[2],nil,arg[1])
+				#@arg = input.split(/\s+/)
+				#holder.add(@arg[1],nil,self.generate_desc(@arg))
 			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input)
-				#holder.add(arg[1],nil,nil)
+				#@arg = input.split(/\s+/)
+				#holder.add(nil,nil,self.generate_desc(@arg))
 			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ input)
-				#holder.add(arg, arg[-1],nil)
+				#@arg = input.split(/\s+/)
+				#holder.add(nil, @arg[-1],self.generate_desc(@arg))
 			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9])$/ =~ input)
-				#arr = input.split(/\s+/)
-				#holder.add(arr[1],arr[-1], self.generate_desc(arr))
+				#@arg = input.split(/\s+/)
+				#holder.add(@arg[1],@arg[-1], self.generate_desc(@arg)
 			else
 				'Comando no valido'
 			end
 		elsif (/^list/ =~ input)
 			if (/^list due (yesterday|today|tomorrow|this-week)/ =~ input)
-				#holder.list_due(arg[2])
+				#@arg = input.split(/\s+/)
+				#holder.list_due(@arg[2])
 			elsif(/^list group/ =~ input)
 				#holder.list_group
 			elsif (/^list overdue/ =~ input)
@@ -44,11 +49,14 @@ class Input
 		elsif(/^ac\s*$/ =~ input)
 			'se archiva'
 		elsif(/^complete [0-9]+\s*$/ =~ input)
-			#holder.complete(arg[1])
+			#@arg = input.split(/\s+/)
+			#holder.complete(@arg[1])
 		elsif(/^save [a-zA-Z]+\s*$/ =~ input)
-			#holder.savefile(arg[1])
+			#@arg = input.split(/\s+/)
+			#holder.savefile(@arg[1])
 		elsif (/^open [a-zA-Z]+\s*$/ =~ input)
-			#holder.openfile(arg[1])
+			#@arg = input.split(/\s+/)
+			#holder.openfile(@arg[1])
 		else	
 			'Comando no valido'
 		end
