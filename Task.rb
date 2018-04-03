@@ -26,10 +26,10 @@ class Task
 	def <=>(other)
 		return nil unless other.is_a?(Task)
 		c=@complete<=>other.complete
-		if(c==0)
-			if(@expiration_date==nil && other.expiration_date!=nil)
+		if(c==0) then
+			if(@expiration_date==nil && other.expiration_date!=nil) then
 				c=-1
-			elsif(other.expiration_date==nil && @expiration_date!=nil)
+			elsif(other.expiration_date==nil && @expiration_date!=nil) then
 				c=1
 			else
 				c=@id<=>other.id
@@ -52,5 +52,3 @@ class Task
 		str
 	end
 end
-
-

@@ -1,7 +1,10 @@
 require "set"
 require "date"
+require_relative "Task.rb"
+require 'yaml' 
 
 class Task_holder
+	
 	def initialize 
 		@set = SortedSet.new()
 		@id=1
@@ -17,54 +20,62 @@ class Task_holder
 	end
 	def list
 		puts "All"
-		@set.each {|task| task.to_s}
+		@set.each {|task| puts task.to_s}
 		end
 	def complete (id)
 		if id<=@id then 
-			@set.each do |task|
+			@set.map! do |task|
 				if task.id == id then
 					task.completed 
 					puts "Todo [#{task.id}: #{task.description}] completed."
 				end
+			task
 			end
 		else puts "invalid task"
 		end
 		self
 	end
 	def ac
-		@set.each {|task| task=nil if task.complete?}
+		@set.each do
+			@set.each {|task| @set.delete(task) if task.complete==1}
+		end
 	end
 	def list_due (up_to)
+	yesterday=(Date.today - 1)
 	puts "all"
 		@set.each do |task|
-		puts "task.to_s" if (((task.date <=> (up_to + 1)) == -1) && ((task.date <=> (date.today - 1)) == 1))
+		puts task.to_s if (((task.expiration_date <=> (up_to + 1)) == -1) && ((task.expiration_date <=> yesterday) == 1))
 		end
 	end
 	def list_overdue
 		@set.each do |task|
-		puts "task.to_s" if ((task.date <=> (date.today - 1)) == -1)
+		puts task.to_s if ((task.expiration_date <=> (Date.today - 1)) == -1)
 		end
 	end
 	def list_by_group (group)
 		puts "#{group}"
 		@set.each do |task|
-		puts "task.to_s_without_group" if task.group == group
+		puts task.to_s_without_group if task.group == group
 		end
 	end
 	def list_group
 		group = Array.new()
+		group<<" "
 		@set.each do |task|
 			unless group.include? task.group then
 			list_by_group (task.group)
-			group.add (task.group)
+			group<< task.group
 			end
 		end
 	end
-	def savefile
-	
+	def save(file_name)
+		a=File.new(file_name, "w+")
+		a.syswrite(YAML.dump(@set))
+		a.close()
 	end
-	def openfile
-	
+	def load(file_name)
+		a=File.read(file_name)
+		@set=YAML.load(a)
 	end
 	def set_date (date)
 		@set_date=date
@@ -74,7 +85,7 @@ class Task_holder
 	end
 	def find (text)
 		@set.each do |task|
-		puts task.to_s if task.include? text
+		puts task.to_s if task.description.include? text
 		end
 	end
 end
