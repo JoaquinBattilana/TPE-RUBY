@@ -30,7 +30,7 @@ class Input
 			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input)
 				arr = input.split(/\s+/)
 				group=arr[1]
-				@holder.add(self.generate_desc(arr),group)
+				@holder.add(self.generate_desc(arr),nil,group)
 			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input) #add solo desc
 				arr = input.split(/\s+/)
 				@holder.add(self.generate_desc(arr))
