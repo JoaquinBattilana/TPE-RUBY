@@ -44,6 +44,7 @@ class Input
 			end
 		elsif (/^list/ =~ input)
 			if (/^list due (yesterday|today|tomorrow|this-week)/ =~ input)
+				arr = input.split(/\s+/)
 				holder.list_due(arg[2])
 			elsif(/^list group/ =~ input)
 				holder.list_group
