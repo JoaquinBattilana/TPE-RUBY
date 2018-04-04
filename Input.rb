@@ -1,3 +1,5 @@
+require_relative "Task_holder.rb"
+require "date"
 class Input
 	def initialize
 		@holder = Task_holder.new
