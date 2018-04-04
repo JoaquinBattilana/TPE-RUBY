@@ -42,7 +42,7 @@ class Input
 					date = (Date.today+1)
 				else
 					fechas = arg[-1].split("/")
-					date = Date.new(fecha[-1],fehca[-2],fecha[-3])
+					date = Date.new(fecha[-1],fecha[-2],fecha[-3])
 				end
 				@holder.add(self.generate_desc(arr),date)
 			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con los tres
