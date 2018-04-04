@@ -62,7 +62,8 @@ class Input
 			end
 		elsif (/^list/ =~ input)
 			if (/^list due (today|tomorrow|this-week)\s*$/ =~ input) #lsit con fecha
-				@holder.list_due(arg[2])
+				arr = input.split(/\s+/)
+				@holder.list_due(arr[-1])
 			elsif(/^list group\s*$/ =~ input) #list en grupos
 				@holder.list_group
 			elsif(/^list overdue\s*$/ =~ input) #list de las vencidas
@@ -112,6 +113,9 @@ class Input
 				else
 					@holder.set_group("")
 				end
+			else
+				'Invalid command. Use help for command list'
+			end
 		elsif(/^help\s*$/ =~ input)
 			@holder.help
 		else
