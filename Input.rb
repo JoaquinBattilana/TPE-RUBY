@@ -56,21 +56,21 @@ class Input
 				show_add_message(id,desc)
 			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input) #add solo desc
 				arr = input.split(/\s+/)
-				desc=generate_desc(arr)
-				@holder.add(desc)
+				desc = generate_desc(arr)
+				id = @holder.add(desc)
 				show_add_message(id,desc)
 			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con fecha y desc
 				arr = input.split(/\s+/)
 				date = to_date(arr[-1])
 				desc = generate_desc(arr)
-				@holder.add(desc,date)
+				id = @holder.add(desc,date)
 				show_add_message(id,desc)
 			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con los tres
 				arr = input.split(/\s+/)
 				group = arr[1]
 				date = to_date(arr[-1])
 				desc = generate_desc(arr)
-				@holder.add(desc,date,group)
+				id = @holder.add(desc,date,group)
 				show_add_message(id, desc)
 			else
 				show_error
