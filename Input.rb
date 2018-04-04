@@ -5,6 +5,10 @@ class Input
 		@holder = Task_holder.new
 	end
 
+	def show_add_message(id, description)
+		puts "Todo [#{id}: #{description}] added."
+	end
+
 	def to_s
 		'Error'
 	end
@@ -47,33 +51,51 @@ class Input
 			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input)
 				arr = input.split(/\s+/)
 				group=arr[1]
-				@holder.add(generate_desc(arr),nil,group)
+				desc=generate_desc(arr)
+				id = @holder.add(desc,nil,group)
+				show_add_message(id,desc)
 			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input) #add solo desc
 				arr = input.split(/\s+/)
-				@holder.add(generate_desc(arr))
+				desc=generate_desc(arr)
+				@holder.add(desc)
+				show_add_message(id,desc)
 			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con fecha y desc
 				arr = input.split(/\s+/)
-				@holder.add(generate_desc(arr),to_date(arr[-1]))
+				date = to_date(arr[-1])
+				desc = generate_desc(arr)
+				@holder.add(desc,date)
+				show_add_message(id,desc)
 			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con los tres
 				arr = input.split(/\s+/)
 				group = arr[1]
-				@holder.add(generate_desc(arr),to_date(arr[-1]),group)
+				date = to_date(arr[-1])
+				desc = generate_desc(arr)
+				@holder.add(desc,date,group)
+				show_add_message(id, desc)
 			else
 				show_error
 			end
 		elsif (/^list/ =~ input)
 			if (/^list due (today|tomorrow|this-week)\s*$/ =~ input) #lsit con fecha
+				puts "All"
 				arr = input.split(/\s+/)
 				@holder.list_due(arr[-1])
+				#FALTA LO DE puts task.to_s
 			elsif(/^list group\s*$/ =~ input) #list en grupos
 				@holder.list_group
+				#FALTA LO DE puts task.to_s_by_group
 			elsif(/^list overdue\s*$/ =~ input) #list de las vencidas
 				@holder.list_overdue
+				#FALTA LO DE puts task.to_s
 			elsif(/^list\s*$/ =~ input) #list solo
+				puts "All"
 				@holder.list
+				#FALTA LO DEL each
 			elsif(/^list \+[a-zA-Z]+\s*$/ =~ input) #list en grupo especifico
 				arr = input.split(/\s+/)
 				@holder.list_by_group(arr[-1])
+				puts "#{arr[-1]}"
+				#FALTA LO DE puts task.to_s_by_group
 			else
 				show_error
 			end		
@@ -81,7 +103,8 @@ class Input
 			@holder.ac
 		elsif(/^complete [0-9]+\s*$/ =~ input) #completar tarea
 			arr = input.split(/\s+/)
-			@holder.complete(arr[1].to_i)
+			description = @holder.complete(arr[1].to_i)
+			puts "Todo [#{arr[1]}: #{description}] completed."
 		elsif(/^save \w+\S$/ =~ input) #guardar archivo
 			arr = input.split(/\s+/)
 			holder.savefile(arr[1])
@@ -91,6 +114,7 @@ class Input
 		elsif(/^find [a-zA-Z0-9]+\s*$/ =~ input) #buscar
 			arr = input.split(/\s+/)
 			@holder.find(arr[1])
+			#FALTA LO DE MOSTRAR LA/S TAREA/S
 		elsif(/^set/ =~ input) 
 			if(/^set date_task (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])*\s*/ =~ input) #set default fecha
 				arr = input.split(/\s+/)
