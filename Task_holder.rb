@@ -22,34 +22,53 @@ class Task_holder
 		puts "All"
 		@set.each {|task| puts task.to_s}
 		end
+	#~ def complete (id)
+		#~ if id<=@id then 
+			#~ @set.map! do |task|
+				#~ if task.id == id then
+					#~ task.completed 
+					#~ puts "Todo [#{task.id}: #{task.description}] completed."
+				#~ end
+			#~ task
+			#~ end
+		#~ else puts "invalid task"
+		#~ end
+		#~ self
+	#~ end
 	def complete (id)
-		if id<=@id then 
-			@set.map! do |task|
-				if task.id == id then
-					task.completed 
+		if id<=@id
+			@set.each do |task|
+				if task.id== id 
+					@set.delete(task)
+					task.completed()
+					@set.add(task)
 					puts "Todo [#{task.id}: #{task.description}] completed."
 				end
-			task
 			end
-		else puts "invalid task"
+		else
+			puts "invalid task"
 		end
-		self
 	end
+	#~ def ac
+		#~ @set.each do
+			#~ @set.each {|task| @set.delete(task) if task.complete==1}
+		#~ end
+	#~ end
 	def ac
-		@set.each do
-			@set.each {|task| @set.delete(task) if task.complete==1}
+		@set.each do |task|
+			@set.delete(task) if task.complete==1
 		end
 	end
 	def list_due (up_to)
 	yesterday=(Date.today - 1)
 	puts "all"
 		@set.each do |task|
-		puts task.to_s if (((task.expiration_date <=> (up_to + 1)) == -1) && ((task.expiration_date <=> yesterday) == 1))
+		puts task if (((task.expiration_date <=> (up_to + 1)) == -1) && ((task.expiration_date <=> yesterday) == 1))
 		end
 	end
 	def list_overdue
 		@set.each do |task|
-		puts task.to_s if ((task.expiration_date <=> (Date.today - 1)) == -1)
+		puts task if ((task.expiration_date <=> (Date.today - 1)) == -1)
 		end
 	end
 	def list_by_group (group)

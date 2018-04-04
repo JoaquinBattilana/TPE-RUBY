@@ -63,4 +63,7 @@ lista.ac
 lista.list
 
 puts "pruebo los saves"
+lista.list
 lista.save("lista1")
+lista.load("lista1")
+lista.list

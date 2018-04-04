@@ -17,7 +17,7 @@ class Task
 		@complete=1
 	end
 	def to_s
-		"#{@id}["+(@complete==1? "x":" ")+"]  %10s  #{@group} #{@description}" %(date_to_str)
+		"%3s["%(@id)+(@complete==1? "x":" ")+"]  %10s  #{@group} #{@description}" %(date_to_str)
 	end
 	def ==(other)
 		return false unless other.is_a?(Task)
@@ -38,7 +38,7 @@ class Task
 		c
 	end
 	def to_s_without_group
-		"#{@id}["+(@complete==1? "x":" ")+"]  %10s  #{@description}" %(date_to_str)
+		"%3s["%(@id)+(@complete==1? "x":" ")+"]  %10s  #{@description}" %(date_to_str)
 	end
 	private def date_to_str()
 		str=@expiration_date.to_s
@@ -50,5 +50,12 @@ class Task
 			str="tomorrow"
 		end
 		str
+	end
+	def hash()
+		[@id].hash
+	end
+	def eql?(other)
+		return nil unless other.is_a(Task)
+		@id==other.id
 	end
 end
