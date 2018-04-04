@@ -1,6 +1,5 @@
 require_relative "Task_holder.rb"
 require "date"
-
 class Input
 	def initialize
 		@holder = Task_holder.new
@@ -8,6 +7,10 @@ class Input
 
 	def to_s
 		'Error'
+	end
+
+	def show_error
+		puts 'Invalid command. Use help for command list'
 	end
 
 	def generate_desc(arg)
@@ -28,40 +31,35 @@ class Input
 		return sentence 
 	end
 
+	def to_date(string)
+		if (string == "today")
+			return Date.today 
+		elsif (string == "tomorrow")
+			return (Date.today+1)
+		else
+			fechas = string.split("/")
+			return Date.new(fecha[-1],fecha[-2],fecha[-3])
+		end
+	end
+
 	def input_check(input)
 		if (/^add [a-zA-Z]+|\+/ =~ input) #add con grupo y desc
 			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input)
 				arr = input.split(/\s+/)
 				group=arr[1]
-				@holder.add(self.generate_desc(arr),nil,group)
+				@holder.add(generate_desc(arr),nil,group)
 			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input) #add solo desc
 				arr = input.split(/\s+/)
-				@holder.add(self.generate_desc(arr))
+				@holder.add(generate_desc(arr))
 			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con fecha y desc
 				arr = input.split(/\s+/)
-				if (arg[-1] == "today")
-					date = Date.today 
-				elsif (arg[-1] == "tomorrow")
-					date = (Date.today+1)
-				else
-					fechas = arg[-1].split("/")
-					date = Date.new(fecha[-1],fecha[-2],fecha[-3])
-				end
-				@holder.add(self.generate_desc(arr),date)
+				@holder.add(generate_desc(arr),to_date(arr[-1]))
 			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con los tres
 				arr = input.split(/\s+/)
 				group = arr[1]
-				if (arg[-1] == "today")
-					date = Date.today 
-				elsif (arg[-1] == "tomorrow")
-					date = (Date.today+1)
-				else
-					fechas = arg[-1].split("/")
-					date = Date.new(fecha[-1],fecha[-2],fecha[-3])
-				end
-				@holder.add(self.generate_desc(arr),date,group)
+				@holder.add(generate_desc(arr),to_date(arr[-1]),group)
 			else
-				'Invalid command. Use help for command list'
+				show_error
 			end
 		elsif (/^list/ =~ input)
 			if (/^list due (today|tomorrow|this-week)\s*$/ =~ input) #lsit con fecha
@@ -77,16 +75,16 @@ class Input
 				arr = input.split(/\s+/)
 				@holder.list_by_group(arr[-1])
 			else
-				'Invalid command. Use help for command list'
+				show_error
 			end		
 		elsif(/^ac\s*$/ =~ input) #archivar
 			@holder.ac
 		elsif(/^complete [0-9]+\s*$/ =~ input) #completar tarea
 			arr = input.split(/\s+/)
-			@holder.complete(arr[1].to_i)
+			@holder.complete(arr[1])
 		elsif(/^save \w+\S$/ =~ input) #guardar archivo
 			arr = input.split(/\s+/)
-			@holder.savefile(arr[1])
+			holder.savefile(arr[1])
 		elsif(/^open \w+\S$/ =~ input) #abrir archivo
 			arr = input.split(/\s+/)
 			@holder.openfile(arr[1])
@@ -97,15 +95,7 @@ class Input
 			if(/^set date_task (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])*\s*/ =~ input) #set default fecha
 				arr = input.split(/\s+/)
 				if(arr[-1] != 'date_task')
-					if (arg[-1] == "today")
-						date = Date.today 
-					elsif (arg[-1] == "tomorrow")
-						date = (Date.today+1)
-					else
-						fechas = arg[-1].split("/")
-						date = Date.new(fecha[-1],fecha[-2],fecha[-3])
-					end	
-					@holder.set_date(date)
+					@holder.set_date(to_date(arr[-1]))
 				else
 					@holder.set_date(nil)
 				end
@@ -117,12 +107,12 @@ class Input
 					@holder.set_group("")
 				end
 			else
-				'Invalid command. Use help for command list'
+				show_error
 			end
 		elsif(/^help\s*$/ =~ input)
 			@holder.help
 		else
-			'Invalid command. Use help for command list'
+			show_error
 		end
 	end
 end
@@ -133,3 +123,4 @@ while (input !~ /^exit\s*$/) do
 	command_line.input_check(input)
 	input = gets.chomp
 end 
+today
