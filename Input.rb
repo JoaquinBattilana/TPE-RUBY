@@ -1,5 +1,6 @@
 require_relative "Task_holder.rb"
 require "date"
+
 class Input
 	def initialize
 		@holder = Task_holder.new
@@ -7,10 +8,6 @@ class Input
 
 	def to_s
 		'Error'
-	end
-
-	def show_error
-		puts 'Invalid command. Use help for command list'
 	end
 
 	def generate_desc(arg)
@@ -36,10 +33,10 @@ class Input
 			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input)
 				arr = input.split(/\s+/)
 				group=arr[1]
-				@holder.add(generate_desc(arr),nil,group)
+				@holder.add(self.generate_desc(arr),nil,group)
 			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input) #add solo desc
 				arr = input.split(/\s+/)
-				@holder.add(generate_desc(arr))
+				@holder.add(self.generate_desc(arr))
 			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con fecha y desc
 				arr = input.split(/\s+/)
 				if (arg[-1] == "today")
@@ -50,7 +47,7 @@ class Input
 					fechas = arg[-1].split("/")
 					date = Date.new(fecha[-1],fecha[-2],fecha[-3])
 				end
-				@holder.add(generate_desc(arr),date)
+				@holder.add(self.generate_desc(arr),date)
 			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con los tres
 				arr = input.split(/\s+/)
 				group = arr[1]
@@ -62,9 +59,9 @@ class Input
 					fechas = arg[-1].split("/")
 					date = Date.new(fecha[-1],fecha[-2],fecha[-3])
 				end
-				@holder.add(generate_desc(arr),date,group)
+				@holder.add(self.generate_desc(arr),date,group)
 			else
-				show_error
+				'Invalid command. Use help for command list'
 			end
 		elsif (/^list/ =~ input)
 			if (/^list due (today|tomorrow|this-week)\s*$/ =~ input) #lsit con fecha
@@ -80,16 +77,16 @@ class Input
 				arr = input.split(/\s+/)
 				@holder.list_by_group(arr[-1])
 			else
-				show_error
+				'Invalid command. Use help for command list'
 			end		
 		elsif(/^ac\s*$/ =~ input) #archivar
 			@holder.ac
 		elsif(/^complete [0-9]+\s*$/ =~ input) #completar tarea
 			arr = input.split(/\s+/)
-			@holder.complete(arr[1])
+			@holder.complete(arr[1].to_i)
 		elsif(/^save \w+\S$/ =~ input) #guardar archivo
 			arr = input.split(/\s+/)
-			holder.savefile(arr[1])
+			@holder.savefile(arr[1])
 		elsif(/^open \w+\S$/ =~ input) #abrir archivo
 			arr = input.split(/\s+/)
 			@holder.openfile(arr[1])
@@ -120,12 +117,12 @@ class Input
 					@holder.set_group("")
 				end
 			else
-				show_error
+				'Invalid command. Use help for command list'
 			end
 		elsif(/^help\s*$/ =~ input)
 			@holder.help
 		else
-			show_error
+			'Invalid command. Use help for command list'
 		end
 	end
 end
