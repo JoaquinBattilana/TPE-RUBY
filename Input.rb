@@ -9,6 +9,10 @@ class Input
 		'Error'
 	end
 
+	def show_error
+		puts 'Invalid command. Use help for command list'
+	end
+
 	def generate_desc(arg)
 		arg.delete(arg[0])
 		if (/\+[a-zA-Z]+$/ =~ arg[0])
@@ -32,10 +36,10 @@ class Input
 			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input)
 				arr = input.split(/\s+/)
 				group=arr[1]
-				@holder.add(self.generate_desc(arr),nil,group)
+				@holder.add(generate_desc(arr),nil,group)
 			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input) #add solo desc
 				arr = input.split(/\s+/)
-				@holder.add(self.generate_desc(arr))
+				@holder.add(generate_desc(arr))
 			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con fecha y desc
 				arr = input.split(/\s+/)
 				if (arg[-1] == "today")
@@ -46,7 +50,7 @@ class Input
 					fechas = arg[-1].split("/")
 					date = Date.new(fecha[-1],fecha[-2],fecha[-3])
 				end
-				@holder.add(self.generate_desc(arr),date)
+				@holder.add(generate_desc(arr),date)
 			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con los tres
 				arr = input.split(/\s+/)
 				group = arr[1]
@@ -58,9 +62,9 @@ class Input
 					fechas = arg[-1].split("/")
 					date = Date.new(fecha[-1],fecha[-2],fecha[-3])
 				end
-				@holder.add(self.generate_desc(arr),date,group)
+				@holder.add(generate_desc(arr),date,group)
 			else
-				'Invalid command. Use help for command list'
+				show_error
 			end
 		elsif (/^list/ =~ input)
 			if (/^list due (today|tomorrow|this-week)\s*$/ =~ input) #lsit con fecha
@@ -76,7 +80,7 @@ class Input
 				arr = input.split(/\s+/)
 				@holder.list_by_group(arr[-1])
 			else
-				'Invalid command. Use help for command list'
+				show_error
 			end		
 		elsif(/^ac\s*$/ =~ input) #archivar
 			@holder.ac
@@ -116,12 +120,12 @@ class Input
 					@holder.set_group("")
 				end
 			else
-				'Invalid command. Use help for command list'
+				show_error
 			end
 		elsif(/^help\s*$/ =~ input)
 			@holder.help
 		else
-			'Invalid command. Use help for command list'
+			show_error
 		end
 	end
 end
@@ -129,6 +133,6 @@ end
 command_line = Input.new
 input = gets.chomp
 while (input !~ /^exit\s*$/) do
-	puts command_line.input_check(input)
+	command_line.input_check(input)
 	input = gets.chomp
 end 
