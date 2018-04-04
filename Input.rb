@@ -81,7 +81,7 @@ class Input
 			@holder.ac
 		elsif(/^complete [0-9]+\s*$/ =~ input) #completar tarea
 			arr = input.split(/\s+/)
-			@holder.complete(arr[1])
+			@holder.complete(arr[1].to_i)
 		elsif(/^save \w+\S$/ =~ input) #guardar archivo
 			arr = input.split(/\s+/)
 			holder.savefile(arr[1])
