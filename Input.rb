@@ -146,5 +146,4 @@ input = gets.chomp
 while (input !~ /^exit\s*$/) do
 	command_line.input_check(input)
 	input = gets.chomp
-end 
-today
+end
