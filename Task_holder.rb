@@ -12,6 +12,8 @@ class Task_holder
 		@set_group=nil
 	end
 	def add (description,expiration_date=@set_date,group=@set_group)
+		expiration_date=@set_date if expiration_date == nil
+		group = @set_group if group == nil
 		new_task=Task.new(@id,description,expiration_date,group)
 		@set.add(new_task)
 		puts "Todo [#{@id}: #{description}] added."
@@ -63,12 +65,12 @@ class Task_holder
 	yesterday=(Date.today - 1)
 	puts "all"
 		@set.each do |task|
-		puts task if (((task.expiration_date <=> (up_to + 1)) == -1) && ((task.expiration_date <=> yesterday) == 1))
+		puts task.to_s if (((task.expiration_date <=> (up_to + 1)) == -1) && ((task.expiration_date <=> yesterday) == 1))
 		end
 	end
 	def list_overdue
 		@set.each do |task|
-		puts task if ((task.expiration_date <=> (Date.today - 1)) == -1)
+		puts task.to_s if ((task.expiration_date <=> (Date.today - 1)) == -1)
 		end
 	end
 	def list_by_group (group)
@@ -104,8 +106,7 @@ class Task_holder
 	end
 	def find (text)
 		@set.each do |task|
-		puts task.to_s if task.description.include? text
+		puts task.to_s if task.description.upcase.include? text.upcase
 		end
 	end
 end
-
