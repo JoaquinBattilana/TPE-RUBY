@@ -87,7 +87,7 @@ class Input
 			holder.savefile(arr[1])
 		elsif(/^open \w+\S$/ =~ input) #abrir archivo
 			arr = input.split(/\s+/)
-			@holder.openfile(arr[1])
+			@holder.load(arr[1])
 		elsif(/^find [a-zA-Z0-9]+\s*$/ =~ input) #buscar
 			arr = input.split(/\s+/)
 			@holder.find(arr[1])
