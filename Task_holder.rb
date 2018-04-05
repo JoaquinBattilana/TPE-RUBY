@@ -3,7 +3,7 @@ require "date"
 require_relative "Task.rb"
 require 'yaml' 
 
-class Task_holder
+class TaskHolder
 	
 	def initialize 
 		@set = SortedSet.new()
