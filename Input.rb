@@ -125,7 +125,7 @@ class Input
 		elsif(/^save \w+\S$/ =~ input) #guardar archivo
 			begin
 				arr = input.split(/\s+/)
-				holder.savefile(arr[-1])
+				@holder.save(arr[-1])
 				puts "File was saved"
 			rescue Exception => e
 				e.message
