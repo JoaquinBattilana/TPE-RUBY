@@ -49,34 +49,27 @@ class Input
 	end
 
 	def input_check(input)
-	#~ IMPORTANTE ANDAN MAL LAS EXPRESIONES DE ADD, SIEMPRE ENTRAN EN EL 1 Y EL 2 PERO NUNCA EN EL 3 Y EL 4
-	#~ DEJE LOS PUTS DE LOS NUMEROS PARA QUE VEAN A QUE ME REFIERO!
-	#~ TAMPOCO ANDA EL LIST +NOMBREDEGRUPO, TIRA SIEMPRE INVALIDO, REVISAR!!
 		if (/^add/ =~ input) #add con grupo y desc
-			if(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con los tres
-				puts "4"
+			if(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add desc date and group
 				arr = input.split(/\s+/)
 				group = arr[1]
 				date = to_date(arr[-1])
 				desc = generate_desc(arr)
 				id = @holder.add(desc,date,group)
 				show_add_message(id, desc)
-			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con fecha y desc
-				puts "3"
+			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add date y desc
 				arr = input.split(/\s+/)
 				date = to_date(arr[-1])
 				desc = generate_desc(arr)
 				id = @holder.add(desc,date)
 				show_add_message(id,desc)
-			elsif (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input)
-				puts "1"
+			elsif (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input) #add group and desc
 				arr = input.split(/\s+/)
 				group=arr[1]
 				desc=generate_desc(arr)
 				id = @holder.add(desc,nil,group)
 				show_add_message(id,desc)
-			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input) #add solo desc
-				puts "2"
+			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input) #add desc
 				arr = input.split(/\s+/)
 				desc = generate_desc(arr)
 				id = @holder.add(desc)
@@ -85,7 +78,7 @@ class Input
 				show_error
 			end
 		elsif (/^list/ =~ input)
-			if(/^list \+[a-zA-Z]+$/ =~ input) #list en grupo especifico
+			if(/^list \+[a-zA-Z]+$/ =~ input) #list specific group
 				arr = input.split(/\s+/)
 				puts "#{arr[-1]}"
 				(@holder.list_by_group(arr[-1])).each {|task| puts task.to_s_without_group}
@@ -93,16 +86,16 @@ class Input
 				puts "All"
 				arr = input.split(/\s+/)
 				puts @holder.list_due(to_date(arr[-1]))
-			elsif(/^list group\s*$/ =~ input) #list en grupos
+			elsif(/^list group\s*$/ =~ input) #list all groups
 				a=@holder.list_group
 				a.each do |group|
 				puts group
 				(@holder.list_by_group(group)).each {|task| puts task.to_s_without_group}
 				end
-			elsif(/^list overdue\s*$/ =~ input) #list de las vencidas
+			elsif(/^list overdue\s*$/ =~ input) #list overdue
 				puts "All"
 				puts @holder.list_overdue
-			elsif(/^list\s*$/ =~ input) #list solo
+			elsif(/^list\s*$/ =~ input) #list all
 				puts "All"
 				puts @holder.list
 			else
