@@ -43,8 +43,8 @@ id
 complete
 group
 expiration_date
+to_s()
 completed()
-to_s
 _== (other)
 <=>(other)
 to_s_without_group()
