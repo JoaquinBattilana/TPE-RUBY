@@ -1,0 +1,59 @@
+--- !ruby/object:SortedSet
+keys:
+- &1 !ruby/object:Task
+  description: una tarea solo con descripcion
+  id: 1
+  complete: 0
+  expiration_date: 
+  group: 
+- &2 !ruby/object:Task
+  description: una tarea con grupo
+  id: 2
+  complete: 0
+  expiration_date: 
+  group: "+grupo"
+- &5 !ruby/object:Task
+  description: una tarea en grupo diferente
+  id: 6
+  complete: 0
+  expiration_date: 
+  group: "+otro"
+- &3 !ruby/object:Task
+  description: una tarea con fecha para hoy
+  id: 3
+  complete: 0
+  expiration_date: 2018-04-05
+  group: 
+- &4 !ruby/object:Task
+  description: una tarea con grupo y fecha
+  id: 4
+  complete: 0
+  expiration_date: 2018-04-06
+  group: "+grupo"
+- &6 !ruby/object:Task
+  description: una tarea vencida
+  id: 7
+  complete: 0
+  expiration_date: 2010-10-10
+  group: 
+- &7 !ruby/object:Task
+  description: una tarea muy lejana
+  id: 8
+  complete: 0
+  expiration_date: 2030-10-10
+  group: 
+- &8 !ruby/object:Task
+  description: tarea completada sin ac
+  id: 9
+  complete: 1
+  expiration_date: 
+  group: 
+hash:
+  *1: true
+  *2: true
+  *3: true
+  *4: true
+  *5: true
+  *6: true
+  *7: true
+  *8: true
