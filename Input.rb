@@ -52,7 +52,7 @@ class Input
 	#~ IMPORTANTE ANDAN MAL LAS EXPRESIONES DE ADD, SIEMPRE ENTRAN EN EL 1 Y EL 2 PERO NUNCA EN EL 3 Y EL 4
 	#~ DEJE LOS PUTS DE LOS NUMEROS PARA QUE VEAN A QUE ME REFIERO!
 	#~ TAMPOCO ANDA EL LIST +NOMBREDEGRUPO, TIRA SIEMPRE INVALIDO, REVISAR!!
-		if (/^add [a-zA-Z]+|\+/ =~ input) #add con grupo y desc
+		if (/^add/ =~ input) #add con grupo y desc
 			if(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con los tres
 				puts "4"
 				arr = input.split(/\s+/)
@@ -85,7 +85,12 @@ class Input
 				show_error
 			end
 		elsif (/^list/ =~ input)
-			if (/^list due (today|tomorrow|this-week)\s*$/ =~ input) #lsit con fecha
+			if(/^list \+[a-zA-Z]+$/ =~ input) #list en grupo especifico
+				arr = input.split(/\s+/)
+				@holder.list_by_group(arr[-1])
+				puts "#{arr[-1]}"
+				puts @holder.list_by_group(arr[-1])
+			elsif (/^list due (today|tomorrow|this-week)\s*$/ =~ input) #lsit con fecha
 				puts "All"
 				arr = input.split(/\s+/)
 				puts @holder.list_due(to_date(arr[-1]))
@@ -101,11 +106,6 @@ class Input
 			elsif(/^list\s*$/ =~ input) #list solo
 				puts "All"
 				puts @holder.list
-			elsif(/^list \+[a-zA-Z]+\s*$/ =~ input) #list en grupo especifico
-				arr = input.split(/\s+/)
-				@holder.list_by_group(arr[-1])
-				puts "#{arr[-1]}"
-				puts @holder.list_by_group(arr[-1])
 			else
 				show_error
 			end		
@@ -142,7 +142,7 @@ class Input
 			arr = input.split(/\s+/)
 			puts @holder.find(arr[1])
 		elsif(/^set/ =~ input) 
-			if(/^set date_task (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])*\s*/ =~ input) #set default fecha
+			if(/^set date_task(\stomorrow|\stoday|\s[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])*\s*/ =~ input) #set default fecha
 				arr = input.split(/\s+/)
 				if(arr[-1] != 'date_task')
 					@holder.set_date(to_date(arr[-1]))
@@ -151,9 +151,9 @@ class Input
 					@holder.set_date(nil)
 					puts "Fixed-date removed"
 				end
-			elsif(/^set group [a-zA-Z]*\s*$/ =~ input) #set default grupo
-				arr = input.split(/\s+/)
-				if(arr[-1] != 'group')
+			elsif(/^set group/ =~ input) #set default grupo
+				if(/^set group \+[a-zA-Z]+/ =~ input)
+					arr = input.split(/\s+/)
 					@holder.set_group(arr[-1])
 					puts "Group set to #{arr[-1]}"
 				else
