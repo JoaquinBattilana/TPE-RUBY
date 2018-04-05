@@ -87,9 +87,8 @@ class Input
 		elsif (/^list/ =~ input)
 			if(/^list \+[a-zA-Z]+$/ =~ input) #list en grupo especifico
 				arr = input.split(/\s+/)
-				@holder.list_by_group(arr[-1])
 				puts "#{arr[-1]}"
-				puts @holder.list_by_group(arr[-1])
+				(@holder.list_by_group(arr[-1])).each {|task| puts task.to_s_without_group}
 			elsif (/^list due (today|tomorrow|this-week)\s*$/ =~ input) #lsit con fecha
 				puts "All"
 				arr = input.split(/\s+/)
@@ -98,7 +97,7 @@ class Input
 				a=@holder.list_group
 				a.each do |group|
 				puts group
-				puts @holder.list_by_group(group)
+				(@holder.list_by_group(group)).each {|task| puts task.to_s_without_group}
 				end
 			elsif(/^list overdue\s*$/ =~ input) #list de las vencidas
 				puts "All"
@@ -175,4 +174,3 @@ class Input
 		end
 	end
 end
-
