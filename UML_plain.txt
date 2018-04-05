@@ -1,0 +1,55 @@
+@startuml
+Input "1" *-- TaskHolder :tiene 1
+TaskHolder "1" *-- "n" Task : tiene 1 set
+
+class Input{
+holder
+intitialize()
+show_add_message(id,description)
+to_s()
+show_error()
+generate_desc(arg)
+to_date(string)
+input_check(input)
+start()
+}
+
+class TaskHolder{
+set
+id
+set_date
+set_group
+initialize()
+add(description, expiration_date, group)
+list()
+complete(task)
+ac()
+list_due(up_to)
+list_overdue()
+list_by_group(group)
+list_group()
+save(file_name)
+load(file_name)
+set_date(date)
+set_group(group)
+find(text)
+find_task_by_id(id)
+refresh_task(task)
+}
+
+class Task{
+description
+id
+complete
+group
+expiration_date
+completed()
+to_s
+_== (other)
+<=>(other)
+to_s_without_group()
+date_to_str()
+hash()
+eql?(other)
+}
+@enduml
