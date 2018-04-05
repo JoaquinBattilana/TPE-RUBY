@@ -1,5 +1,5 @@
 require "set"
-require "Date"
+require "date"
 
 class Task
 	include Comparable
