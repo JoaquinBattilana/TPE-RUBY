@@ -62,6 +62,7 @@ class TaskHolder
 		@set=YAML.load(a)
 		@id=1
 		@set.each {|task| @id=task.id if @id<task.id}
+		@id+=1
 	end
 	def set_date (date)
 		@set_date=date
