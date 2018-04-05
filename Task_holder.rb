@@ -39,8 +39,9 @@ class Task_holder
 		end
 	end
 	def list_overdue
+		yesterday=(Date.today - 1)
 		@set.find_all do |task|
-		(task.expiration_date <=> (Date.today - 1)) == -1
+		(task.expiration_date <=> yesterday) == -1
 		end
 	end
 	def list_by_group (group)
