@@ -146,15 +146,19 @@ class Input
 				arr = input.split(/\s+/)
 				if(arr[-1] != 'date_task')
 					@holder.set_date(to_date(arr[-1]))
+					puts "Date set to #{arr[-1]}"
 				else
 					@holder.set_date(nil)
+					puts "Fixed-date removed"
 				end
 			elsif(/^set group [a-zA-Z]*\s*$/ =~ input) #set default grupo
 				arr = input.split(/\s+/)
 				if(arr[-1] != 'group')
 					@holder.set_group(arr[-1])
+					puts "Group set to #{arr[-1]}"
 				else
 					@holder.set_group("")
+					puts "Fixed-group removed"
 				end
 			else
 				show_error
