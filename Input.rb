@@ -42,30 +42,37 @@ class Input
 			return (Date.today+1)
 		else
 			fechas = string.split("/")
-			return Date.new(fecha[-1],fecha[-2],fecha[-3])
+			return Date.new(fechas[-1],fechas[-2],fechas[-3])
 		end
 	end
 
 	def input_check(input)
+	#~ IMPORTANTE ANDAN MAL LAS EXPRESIONES DE ADD, SIEMPRE ENTRAN EN EL 1 Y EL 2 PERO NUNCA EN EL 3 Y EL 4
+	#~ DEJE LOS PUTS DE LOS NUMEROS PARA QUE VEAN A QUE ME REFIERO!
+	#~ TAMPOCO ANDA EL LIST +NOMBREDEGRUPO, TIRA SIEMPRE INVALIDO, REVISAR!!
 		if (/^add [a-zA-Z]+|\+/ =~ input) #add con grupo y desc
 			if (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input)
+				puts "1"
 				arr = input.split(/\s+/)
 				group=arr[1]
 				desc=generate_desc(arr)
 				id = @holder.add(desc,nil,group)
 				show_add_message(id,desc)
 			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input) #add solo desc
+				puts "2"
 				arr = input.split(/\s+/)
 				desc = generate_desc(arr)
 				id = @holder.add(desc)
 				show_add_message(id,desc)
 			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con fecha y desc
+				puts "3"
 				arr = input.split(/\s+/)
 				date = to_date(arr[-1])
 				desc = generate_desc(arr)
 				id = @holder.add(desc,date)
 				show_add_message(id,desc)
 			elsif(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add con los tres
+				puts "4"
 				arr = input.split(/\s+/)
 				group = arr[1]
 				date = to_date(arr[-1])
@@ -79,42 +86,59 @@ class Input
 			if (/^list due (today|tomorrow|this-week)\s*$/ =~ input) #lsit con fecha
 				puts "All"
 				arr = input.split(/\s+/)
-				@holder.list_due(arr[-1])
-				#FALTA LO DE puts task.to_s
+				puts @holder.list_due(arr[-1])
 			elsif(/^list group\s*$/ =~ input) #list en grupos
-				@holder.list_group
-				#FALTA LO DE puts task.to_s_by_group
+				a=@holder.list_group
+				a.each do |group|
+				puts group
+				puts @holder.list_by_group(group)
+				end
 			elsif(/^list overdue\s*$/ =~ input) #list de las vencidas
-				@holder.list_overdue
-				#FALTA LO DE puts task.to_s
+				puts "All"
+				puts @holder.list_overdue
 			elsif(/^list\s*$/ =~ input) #list solo
 				puts "All"
-				@holder.list
-				#FALTA LO DEL each
+				puts @holder.list
 			elsif(/^list \+[a-zA-Z]+\s*$/ =~ input) #list en grupo especifico
 				arr = input.split(/\s+/)
 				@holder.list_by_group(arr[-1])
 				puts "#{arr[-1]}"
-				#FALTA LO DE puts task.to_s_by_group
+				puts @holder.list_by_group(arr[-1])
 			else
 				show_error
 			end		
 		elsif(/^ac\s*$/ =~ input) #archivar
 			@holder.ac
+			puts "Al completed task has been archived."
 		elsif(/^complete [0-9]+\s*$/ =~ input) #completar tarea
 			arr = input.split(/\s+/)
-			description = @holder.complete(arr[1].to_i)
-			puts "Todo [#{arr[1]}: #{description}] completed."
+			task = @holder.find_task_by_id(arr[1].to_i)
+			if task==nil
+				puts "Invalid Task"
+			elsif @holder.complete(task)
+				puts "Todo [#{arr[1]}: #{task.description}] completed."
+			else
+				puts "Task #{arr[1]} already completed"
+			end
 		elsif(/^save \w+\S$/ =~ input) #guardar archivo
-			arr = input.split(/\s+/)
-			holder.savefile(arr[1])
+			begin
+				arr = input.split(/\s+/)
+				holder.savefile(arr[1])
+				puts "File was saved"
+			rescue Exception =>
+				e.message
+			end
 		elsif(/^open \w+\S$/ =~ input) #abrir archivo
-			arr = input.split(/\s+/)
-			@holder.load(arr[1])
+			begin
+				arr = input.split(/\s+/)
+				@holder.load(arr[1])
+				puts "File was loaded"
+			rescue Exception => e
+				puts e.message
+			end
 		elsif(/^find [a-zA-Z0-9]+\s*$/ =~ input) #buscar
 			arr = input.split(/\s+/)
-			@holder.find(arr[1])
-			#FALTA LO DE MOSTRAR LA/S TAREA/S
+			puts @holder.find(arr[1])
 		elsif(/^set/ =~ input) 
 			if(/^set date_task (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])*\s*/ =~ input) #set default fecha
 				arr = input.split(/\s+/)
@@ -139,11 +163,10 @@ class Input
 			show_error
 		end
 	end
+	def start()
+		while((input=gets.chomp)!='exit')
+			input_check(input)
+		end
+	end
 end
 
-command_line = Input.new
-input = gets.chomp
-while (input !~ /^exit\s*$/) do
-	command_line.input_check(input)
-	input = gets.chomp
-end

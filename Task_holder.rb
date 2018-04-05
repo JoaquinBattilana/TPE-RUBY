@@ -16,78 +16,40 @@ class Task_holder
 		group = @set_group if group == nil
 		new_task=Task.new(@id,description,expiration_date,group)
 		@set.add(new_task)
-		puts "Todo [#{@id}: #{description}] added."
 		@id +=1
-		self
+		@id-1
 	end
 	def list
-		puts "All"
-		@set.each {|task| puts task.to_s}
-		end
-	#~ def complete (id)
-		#~ if id<=@id then 
-			#~ @set.map! do |task|
-				#~ if task.id == id then
-					#~ task.completed 
-					#~ puts "Todo [#{task.id}: #{task.description}] completed."
-				#~ end
-			#~ task
-			#~ end
-		#~ else puts "invalid task"
-		#~ end
-		#~ self
-	#~ end
-	def complete (id)
-		if id<=@id
-			@set.each do |task|
-				if task.id== id 
-					@set.delete(task)
-					task.completed()
-					@set.add(task)
-					puts "Todo [#{task.id}: #{task.description}] completed."
-				end
-			end
-		else
-			puts "invalid task"
-		end
+		@set.map {|task| task}
 	end
-	#~ def ac
-		#~ @set.each do
-			#~ @set.each {|task| @set.delete(task) if task.complete==1}
-		#~ end
-	#~ end
+	def complete (task)
+		return false if task.complete == 1
+		refresh_task(task)
+		true
+	end
 	def ac
 		@set.each do |task|
 			@set.delete(task) if task.complete==1
 		end
 	end
 	def list_due (up_to)
-	yesterday=(Date.today - 1)
-	puts "all"
-		@set.each do |task|
-		puts task.to_s if (((task.expiration_date <=> (up_to + 1)) == -1) && ((task.expiration_date <=> yesterday) == 1))
+		yesterday=(Date.today - 1)
+		@set.find_all do |task|
+		((task.expiration_date <=> (up_to + 1)) == -1) && ((task.expiration_date <=> yesterday) == 1)
 		end
 	end
 	def list_overdue
-		@set.each do |task|
-		puts task.to_s if ((task.expiration_date <=> (Date.today - 1)) == -1)
+		@set.find_all do |task|
+		(task.expiration_date <=> (Date.today - 1)) == -1
 		end
 	end
 	def list_by_group (group)
-		puts "#{group}"
-		@set.each do |task|
-		puts task.to_s_without_group if task.group == group
-		end
+		@set.find_all{|task| task.group==group}
 	end
 	def list_group
-		group = Array.new()
-		group<<" "
-		@set.each do |task|
-			unless group.include? task.group then
-			list_by_group (task.group)
-			group<< task.group
-			end
-		end
+		group = [" "]
+		@set.each {|task| group << task.group unless group.include? task.group}
+		group
 	end
 	def save(file_name)
 		a=File.new(file_name, "w+")
@@ -105,8 +67,16 @@ class Task_holder
 		@set_group=group
 	end
 	def find (text)
-		@set.each do |task|
-		puts task.to_s if task.description.upcase.include? text.upcase
+		@set.find_all do |task|
+		task.description.upcase.include? text.upcase
 		end
+	end
+	def find_task_by_id(id)
+		@set.find{|task| task.id==id}
+	end
+	private def refresh_task(task)
+		@set.delete(task)
+		task.completed()
+		@set.add(task)
 	end
 end
