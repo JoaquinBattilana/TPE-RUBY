@@ -60,6 +60,7 @@ class Task_holder
 	def load(file_name)
 		a=File.read(file_name)
 		@set=YAML.load(a)
+		@id=1
 		@set.each {|task| @id=task.id if @id<task.id}
 	end
 	def set_date (date)
