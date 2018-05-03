@@ -50,26 +50,26 @@ class Input
 
 	def input_check(input)
 		if (/^add/ =~ input) #add con grupo y desc
-			if(/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add desc date and group
+			if(/^add \+[a-zA-Z]+ ([a-zA-Z0-9]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add desc date and group
 				arr = input.split(/\s+/)
 				group = arr[1]
 				date = to_date(arr[-1])
 				desc = generate_desc(arr)
 				id = @holder.add(desc,date,group)
 				show_add_message(id, desc)
-			elsif (/^add ([a-zA-Z]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add date y desc
+			elsif (/^add ([a-zA-Z0-9]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add date y desc
 				arr = input.split(/\s+/)
 				date = to_date(arr[-1])
 				desc = generate_desc(arr)
 				id = @holder.add(desc,date)
 				show_add_message(id,desc)
-			elsif (/^add \+[a-zA-Z]+ ([a-zA-Z]+|\s)+$/ =~ input) #add group and desc
+			elsif (/^add \+[a-zA-Z]+ ([a-zA-Z0-9]+|\s)+$/ =~ input) #add group and desc
 				arr = input.split(/\s+/)
 				group=arr[1]
 				desc=generate_desc(arr)
 				id = @holder.add(desc,nil,group)
 				show_add_message(id,desc)
-			elsif(/^add ([a-zA-Z]+|\s)+$/ =~ input) #add desc
+			elsif(/^add ([a-zA-Z0-9]+|\s)+$/ =~ input) #add desc
 				arr = input.split(/\s+/)
 				desc = generate_desc(arr)
 				id = @holder.add(desc)
