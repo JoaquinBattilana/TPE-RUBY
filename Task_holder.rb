@@ -70,6 +70,7 @@ class TaskHolder
 	def set_group (group)
 		@set_group=group
 	end
+	
 	def find (text)
 		@set.find_all do |task|
 		task.description.upcase.include? text.upcase
@@ -82,6 +83,10 @@ class TaskHolder
 		@set.delete(task)
 		task.completed()
 		@set.add(task)
+	end
+
+	def isEmpty?
+		@set.empty?
 	end
 
 	def help()

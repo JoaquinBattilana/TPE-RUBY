@@ -123,12 +123,16 @@ class Input
 				e.message
 			end
 		elsif(/^open \w+\S$/ =~ input) #abrir archivo
-			begin
-				arr = input.split(/\s+/)
-				@holder.load(arr[-1])
-				puts "File was loaded"
-			rescue Exception => e
-				puts e.message
+			if(!(@holder.isEmpty?))
+				puts "Are you sure you want to overwrite? Y/N"
+				conf = gets.chomp
+				if(conf == "Y")
+					load(input)
+				else
+					puts "Command not executed"
+				end
+			else
+				load(input)
 			end
 		elsif(/^find [a-zA-Z0-9]+\s*$/ =~ input) #buscar
 			arr = input.split(/\s+/)
@@ -161,6 +165,17 @@ class Input
 			show_error
 		end
 	end
+
+	def load(text)
+		begin
+			arr = text.split(/\s+/)
+			@holder.load(arr[-1])
+			puts "File was loaded"
+		rescue Exception => e
+			puts e.message
+		end
+	end
+
 	def start()
 		while((input=gets.chomp)!='exit')
 			input_check(input)
