@@ -3,11 +3,12 @@ require "date"
 class StringDate
 	attr_reader :description,:date
 	
-	@@PREDEFINED_DATES={"yesterday"=>Date.today-1, "tomorrow"=>Date.today+1, "today"=>Date.today,"this_week"=>Date.today+7}
+	@@PREDEFINED_DATES={"yesterday"=>lambda{Date.today-1}, "tomorrow"=>lambda{Date.today+1}, "today"=>lambda{Date.today}}
+	@@PREDEFINED_RANGES={"this_week"=>(Date.today..Date.today+7)}
 	
 	def initialize(string)
 		if(@@PREDEFINED_DATES.has_key?(string))
-			@date=@@PREDEFINED_DATES[string]
+			@date=@@PREDEFINED_DATES[string].call
 		else
 			@date=Date.strptime(string, '%d/%m/%Y')
 		end
@@ -17,8 +18,10 @@ class StringDate
 			return "today"
 		elsif (@date==(Date.today+1))
 			return "tomorrow"
+		elsif (@date==(Date.today-1))
+			return "yesterday"
 		else
-			return @date.day+"/"+@date.month+"/"+@date.year
+			return @date.strftime('%d/%m/%Y')
 		end
 	end
 	def ==(other)
@@ -26,5 +29,11 @@ class StringDate
 	end
 	def <=>(other)
 		@date<=>other.date
+	end
+	def is_in?(range)
+		if(@@PREDEFINED_RANGES.has_key?(range))
+			return @@PREDEFINED_RANGES[range] === @date
+		end
+		range===@date
 	end
 end
