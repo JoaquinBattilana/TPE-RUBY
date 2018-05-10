@@ -1,6 +1,11 @@
 require_relative "Task_holder.rb"
 require "date"
 class Input
+	FULL_ADD = 1
+	ADD_DATE_DESC = 2
+	ADD_GROUP_DESC = 3
+	ADD_DESC = 4
+
 	def initialize
 		@holder = TaskHolder.new
 	end
@@ -86,31 +91,44 @@ class Input
 
 	def add_parser(input)
 		if(/^add \+[a-zA-Z]+ ([a-zA-Z0-9]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add desc date and group
+			add(FULL_ADD, input)
+		elsif (/^add ([a-zA-Z0-9]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add date y desc
+			add(ADD_DATE_DESC, input)
+		elsif (/^add \+[a-zA-Z]+ ([a-zA-Z0-9]+|\s)+$/ =~ input) #add group and desc
+			add(ADD_GROUP_DESC, input)
+		elsif(/^add ([a-zA-Z0-9]+|\s)+$/ =~ input) #add desc
+			add(ADD_DESC, input)
+		else
+			show_error
+		end
+	end
+
+	def add(state,input)
+		case state
+		when FULL_ADD
 			arr = input.split(/\s+/)
 			group = arr[1]
 			date = to_date(arr[-1])
 			desc = generate_desc(arr)
 			id = @holder.add(desc,date,group)
 			show_add_message(id, desc)
-		elsif (/^add ([a-zA-Z0-9]+|\s)+ due (tomorrow|today|[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9])\s*$/ =~ input) #add date y desc
+		when ADD_DATE_DESC
 			arr = input.split(/\s+/)
 			date = to_date(arr[-1])
 			desc = generate_desc(arr)
 			id = @holder.add(desc,date)
 			show_add_message(id,desc)
-		elsif (/^add \+[a-zA-Z]+ ([a-zA-Z0-9]+|\s)+$/ =~ input) #add group and desc
+		when ADD_GROUP_DESC
 			arr = input.split(/\s+/)
 			group=arr[1]
 			desc=generate_desc(arr)
 			id = @holder.add(desc,nil,group)
 			show_add_message(id,desc)
-		elsif(/^add ([a-zA-Z0-9]+|\s)+$/ =~ input) #add desc
+		when ADD_DESC
 			arr = input.split(/\s+/)
 			desc = generate_desc(arr)
 			id = @holder.add(desc)
 			show_add_message(id,desc)
-		else
-			show_error
 		end
 	end
 
@@ -140,7 +158,7 @@ class Input
 		end	
 	end
 
-	def compĺete_parser(input)
+	def complete_parser(input)
 		arr = input.split(/\s+/)
 		task = @holder.find_task_by_id(arr[1].to_i)
 		if task==nil
