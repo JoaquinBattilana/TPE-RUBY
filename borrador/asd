@@ -1,0 +1,17 @@
+--- !ruby/object:SortedSet
+keys:
+- &2 !ruby/object:Task
+  description: tarea2
+  id: 2
+  complete: 0
+  expiration_date: 
+  group: ''
+- &1 !ruby/object:Task
+  description: tarea
+  id: 1
+  complete: 0
+  expiration_date: 2018-04-24
+  group: "+poo"
+hash:
+  *1: true
+  *2: true
