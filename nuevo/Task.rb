@@ -13,7 +13,7 @@ class Task
 		@group=group
 	end
 	
-	def completed
+	def complete
 		@complete=1
 	end
 	def complete?

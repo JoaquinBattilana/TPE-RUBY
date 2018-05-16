@@ -23,14 +23,17 @@ class TaskHolder
 	def list
 		@set.map {|task| task}
 	end
-	def complete (task)
-		return false if task.complete == 1
+	def complete	(task)
+		return false if task.complete?
 		refresh_task(task)
 		true
 	end
+	def complete?
+		task.complete?
+	end
 	def ac
 		@set.each do |task|
-			@set.delete(task) if task.complete==1
+			@set.delete(task) if task.complete?
 		end
 	end
 	def list_due (up_to)
@@ -70,7 +73,7 @@ class TaskHolder
 	end
 	private def refresh_task(task)
 		@set.delete(task)
-		task.completed()
+		task.complete()
 		@set.add(task)
 	end
 
