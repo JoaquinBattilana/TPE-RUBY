@@ -6,7 +6,7 @@ class CompleteCommand
 		@id=params[1]
 	end
 	def execute(*objects)
-		holder=objects[1]
+		holder=objects[0]
 		holder.complete(id)
 	end
 end

@@ -6,7 +6,7 @@ class FindCommand
 		@text=params.join(" ")
 	end
 	def execute(*objects)
-		holder=objects[1]
+		holder=objects[0]
 		holder.find(text)
 	end
 end

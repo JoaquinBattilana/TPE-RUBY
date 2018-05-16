@@ -1,5 +1,5 @@
 require_relative "Command.rb"
-require_relative "../SaveLoad"
+require_relative "../SaveLoad.rb"
 class SaveCommand
 	include Command
 	def initialize(params)
