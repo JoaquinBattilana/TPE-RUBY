@@ -26,7 +26,8 @@ class CommandManager
 		command_array = command.split(" ")
 		keyword=command_array.first
 		raise NotSupportedCommand unless COMMANDS_KEYWORDS.key?(keyword)
-		COMMANDS_KEYWORDS[keyword].new(command_array.drop(1))
+		parameters = command_array.drop(1)
+		COMMANDS_KEYWORDS[keyword].new(parameters)
 	end
 end
 
