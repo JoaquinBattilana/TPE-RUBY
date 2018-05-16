@@ -3,8 +3,11 @@ require_relative "Command.rb"
 class AcCommand
 	include Command
 	def initialize(params)
-		#chequear params null
+		if (params != nil)
+			throw NotSupportedCommand
+		end
 	end
+
 	def execute(*objects)
 		holder = objects[0]
 		holder.ac
