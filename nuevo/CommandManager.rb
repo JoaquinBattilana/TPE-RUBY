@@ -21,13 +21,16 @@ class CommandManager
 		"set" => SetCommand,
 		"help" => HelpCommand
 	}
+	def initialize(holder)
+		@holder=holder
+	end
 	def new_command(command)
 		return nil if (command.nil? || !(command.is_a?(String)))
 		command_array = command.split(" ")
 		keyword=command_array.first
 		raise NotSupportedCommand unless COMMANDS_KEYWORDS.key?(keyword)
 		parameters = command_array.drop(1)
-		COMMANDS_KEYWORDS[keyword].new(parameters)
+		COMMANDS_KEYWORDS[keyword].new(@holder, parameters)
 	end
 end
 
