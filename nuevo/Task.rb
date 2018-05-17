@@ -20,7 +20,7 @@ class Task
 		@complete == 1
 	end
 	def to_s
-		"%3s["%(@id) + (self.complete?() ? "x" : " ") + "] %10s "%(@expiration_date) + (@group.nil? ? "" : "+#{@group} ") + "#{@description}"
+		"%3s["%(@id) + (self.complete?() ? "x" : " ") + "] %10s "%(@expiration_date) + "#{@group} " + "#{@description}"
 	end
 	def ==(other)
 		return false unless other.is_a?(Task)
