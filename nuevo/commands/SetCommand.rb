@@ -14,7 +14,7 @@ class SetCommand
 		elsif(/^group/ =~ @text) #set default grupo
 			@command = GROUP
 		else
-			throw NoSupportedCommand
+			raise NoSupportedCommand
 		end
 	end
 
