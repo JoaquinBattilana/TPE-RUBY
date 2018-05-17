@@ -21,7 +21,7 @@ class AddCommand
 		elsif(/^([a-zA-Z0-9]+|\s)+$/ =~ text) #add desc
 			@description=params.join(" ")
 		else
-			throw NotSupportedCommand
+			raise NotSupportedCommand
 		end
 	end
 	def execute(*objects)
