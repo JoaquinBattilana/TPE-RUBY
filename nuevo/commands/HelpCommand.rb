@@ -18,7 +18,7 @@ class HelpCommand
 	set - sets a default date or group; if no parameters are given, removes default date/group; options include:\n\tdate_task [DATE] - Default date to add; Format: DD/MM/YYYY\n\tgroup [GROUP_NAME] - Default group to add; Format: +[GROUP_NAME]"
 	include Command
 	def initialize(params)
-		throw NotSupportedCommand unless params.empty? 
+		raise NotSupportedCommand unless params.empty? 
 	end
 	def execute(*objects)
 		puts HELP_TEXT
