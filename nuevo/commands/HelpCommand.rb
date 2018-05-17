@@ -1,4 +1,5 @@
 require_relative "Command.rb"
+require_relative "../exceptions/InvalidArguments.rb"
 
 class HelpCommand
 	HELP_TEXT="add - Adds another task; options include:\n\t[GROUP_NAME] - Name of the group where the task will be; Format: +[GROUP_NAME]\n\t[DESCRIPTION] - A text that describes the task\n\tdue [DATE] - Date where the task is due; Format: DD/MM/YYYY
@@ -18,7 +19,7 @@ class HelpCommand
 	set - sets a default date or group; if no parameters are given, removes default date/group; options include:\n\tdate_task [DATE] - Default date to add; Format: DD/MM/YYYY\n\tgroup [GROUP_NAME] - Default group to add; Format: +[GROUP_NAME]"
 	include Command
 	def initialize(holder, params)
-		raise NotSupportedCommand unless params.empty? 
+		raise InvalidArguments unless params.empty?
 	end
 	def execute()
 		puts HELP_TEXT

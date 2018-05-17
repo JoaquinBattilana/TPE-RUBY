@@ -1,6 +1,7 @@
 require_relative "Command.rb"
-require_relative "../StringDate.rb"
+require_relative "../utilities/StringDate.rb"
 require "date"
+require_relative "../exceptions/InvalidArguments.rb"
 
 class ListCommand
 	include Command
@@ -31,7 +32,7 @@ class ListCommand
 		elsif(parameters.empty?) #list all
 			@command =LIST_ALL
 		else
-			raise NotSupportedCommand
+			raise InvalidArguments
 		end	
 	end
 

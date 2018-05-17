@@ -1,15 +1,14 @@
 --- !ruby/object:TaskHolder
 set: !ruby/object:SortedSet
-  keys: 
+  keys:
+  - &1 !ruby/object:Task
+    description: asd
+    id: 1
+    complete: 0
+    expiration_date: 
+    group: 
   hash:
-    ? !ruby/object:Task
-      description: asd
-      id: 1
-      complete: 0
-      expiration_date: !ruby/object:StringDate
-        date: 2018-05-18
-      group: 
-    : true
+    *1: true
 id: 2
 set_expiration_date: 
 set_group: 

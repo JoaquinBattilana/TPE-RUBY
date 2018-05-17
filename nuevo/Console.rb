@@ -11,8 +11,8 @@ class Console
 	def start()
 		while((input=gets.chomp)!='exit')
 			begin
-				command = @manager.new_command(input, holder)
-				command.execute(@holder)
+				command = @manager.new_command(input, @holder)
+				command.execute()
 			rescue Exception => e
 				puts e.message
 			end

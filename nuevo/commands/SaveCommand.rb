@@ -1,9 +1,9 @@
 require_relative "Command.rb"
-require_relative "../SaveLoad.rb"
+require_relative "../exceptions/InvalidArguments.rb"
 class SaveCommand
 	include Command
 	def initialize(holder, params)
-		raise NotSupportedCommand if params.empty?
+		raise InvalidArguments if params.empty?
 		@holder=holder
 		@filename=params.join(" ")
 	end

@@ -1,9 +1,10 @@
 require_relative "Command.rb"
+require_relative "../exceptions/InvalidArguments.rb"
 
 class AcCommand
 	include Command
 	def initialize(holder, params)
-		raise NotSupportedCommand unless params.empty?
+		raise InvalidArguments unless params.empty?
 		@holder = holder
 	end
 

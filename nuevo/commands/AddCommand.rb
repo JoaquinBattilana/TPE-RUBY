@@ -1,5 +1,6 @@
 require_relative "Command.rb"
-require_relative "../StringDate.rb"
+require_relative "../utilities/StringDate.rb"
+require_relative "../exceptions/InvalidArguments.rb"
 
 class AddCommand
 	include Command
@@ -22,7 +23,7 @@ class AddCommand
 		elsif(/^([a-zA-Z0-9]+|\s)+$/ =~ text) #add desc
 			@description=params.join(" ")
 		else
-			raise NotSupportedCommand
+			raise InvalidArguments
 		end
 	end
 	def execute()

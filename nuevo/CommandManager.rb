@@ -7,6 +7,7 @@ require_relative "commands/OpenCommand.rb"
 require_relative "commands/FindCommand.rb"
 require_relative "commands/SetCommand.rb"
 require_relative "commands/HelpCommand.rb"
+require_relative "exceptions/NotSupportedCommand.rb"
 
 
 class CommandManager
@@ -31,8 +32,3 @@ class CommandManager
 	end
 end
 
-class NotSupportedCommand < Exception
-	def message
-		'Invalid command. Use help for command list'
-	end
-end

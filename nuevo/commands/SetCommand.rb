@@ -1,5 +1,6 @@
 require_relative "Command.rb"
-require_relative "../StringDate.rb"
+require_relative "../utilities/StringDate.rb"
+require_relative "../exceptions/InvalidArguments.rb"
 
 class SetCommand
 	include Command
@@ -15,7 +16,7 @@ class SetCommand
 		elsif(/^group/ =~ @text) #set default grupo
 			@command = GROUP
 		else
-			raise NoSupportedCommand
+			raise InvalidArguments
 		end
 	end
 
