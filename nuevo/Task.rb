@@ -26,6 +26,11 @@ class Task
 		return false unless other.is_a?(Task)
 		@id==other.id
 	end
+	def expirated?
+		return false if @expiration_date.nil?
+		today = StringDate.new("today")
+		@expiration_date<today
+	end
 	def <=>(other)
 		return nil unless other.is_a?(Task)
 		c=@complete<=>other.complete

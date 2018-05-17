@@ -36,13 +36,14 @@ class TaskHolder
 	end
 	def list_due (string)
 		@set.find_all do |task|
-		task.expiration_date.is_in?(string)
+		if(task.expiration_date !=  nil)
+			task.expiration_date.is_in?(string)
+		end
 		end
 	end
 	def list_overdue
-		yesterday=StringDate.new("yesterday")
 		@set.find_all do |task|
-		task.expiration_date <= yesterday
+			task.expirated?
 		end
 	end
 	def list_by_group (group)
