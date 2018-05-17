@@ -16,7 +16,7 @@ class SaveLoad
 	end
 	
 	def self.load(filename)
-		file=File.read(file_name)
+		file=File.read(filename)
 		hash=YAML.load(file)
 		throw CorruptedFile unless hash.instance_of?(Hash)
 		hash

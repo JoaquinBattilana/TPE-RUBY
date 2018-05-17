@@ -8,6 +8,6 @@ class SaveCommand
 
 	def execute(*objects)
 		holder=objects[0]
-		Saveload.save(@params,1,holder)
+		SaveLoad.save(@params,1,holder)
 	end
 end
