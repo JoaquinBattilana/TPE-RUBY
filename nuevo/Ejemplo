@@ -1,0 +1,59 @@
+--- !ruby/object:TaskHolder
+set: !ruby/object:SortedSet
+  keys:
+  - &1 !ruby/object:Task
+    description: task
+    id: 1
+    complete: 0
+    expiration_date: 
+    group: 
+  - &2 !ruby/object:Task
+    description: test
+    id: 3
+    complete: 0
+    expiration_date: 
+    group: "+POO"
+  - &3 !ruby/object:Task
+    description: sleep
+    id: 4
+    complete: 0
+    expiration_date: 
+    group: "+Personal"
+  - &4 !ruby/object:Task
+    description: Dentist
+    id: 5
+    complete: 0
+    expiration_date: !ruby/object:StringDate
+      date: 2018-05-18
+    group: "+Personal"
+  - &5 !ruby/object:Task
+    description: Chem Test
+    id: 6
+    complete: 0
+    expiration_date: !ruby/object:StringDate
+      date: 2018-06-09
+    group: "+Chem"
+  - &6 !ruby/object:Task
+    description: something
+    id: 7
+    complete: 0
+    expiration_date: !ruby/object:StringDate
+      date: 2018-05-17
+    group: 
+  - &7 !ruby/object:Task
+    description: another task
+    id: 2
+    complete: 1
+    expiration_date: 
+    group: 
+  hash:
+    *1: true
+    *2: true
+    *3: true
+    *4: true
+    *5: true
+    *6: true
+    *7: true
+id: 8
+set_expiration_date: 
+set_group: 
