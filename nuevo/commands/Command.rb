@@ -1,5 +1,5 @@
 module Command
-	def execute(*objects)
+	def execute()
 		raise "Not implemented"
 	end
 end
