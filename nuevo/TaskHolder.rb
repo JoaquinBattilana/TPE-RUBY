@@ -23,7 +23,7 @@ class TaskHolder
 	def list
 		@set.map {|task| task}
 	end
-	def complete	(id)
+	def complete(id)
 		task=find_task_by_id(id)
 		return false if task.complete?
 		refresh_task(task)
