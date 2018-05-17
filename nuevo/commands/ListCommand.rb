@@ -1,23 +1,27 @@
 require_relative "Command.rb"
 require_relative "../StringDate.rb"
+require "date"
 
 class ListCommand
 	include Command
 	LIST_GROUP = 1
-	LIST_BY_DATE = 2
-	LIST_ALL_GROUPS = 3
-	LIST_OVERDUE = 4
-	LIST_ALL = 5
+	LIST_WEEK=2
+	LIST_BY_DATE = 3
+	LIST_ALL_GROUPS = 4
+	LIST_OVERDUE = 5
+	LIST_ALL = 6
 	def initialize(parameters)
 		text=parameters.join(" ")
 		@date=nil
-		@text=nil
 		@group=nil
 		if(/^\+[a-zA-Z]+$/ =~ text) #list specific group
 			@command = LIST_GROUP
 			@group=text[1..-1]
-		elsif (/^due .*$/ =~ text) #lsit con fecha
-			@date = parameters[1..-1].join(" ")
+		elsif (/^due this-week$/ =~ text) #lsit con fecha
+			@date = parameters[1]
+			@command = LIST_WEEK
+		elsif((/^due .*$/ =~ text))
+			@date = StringDate.new(parameters[1..-1].join(" "))
 			@command = LIST_BY_DATE
 		elsif(/^group\s*$/ =~ text) #list all groups
 			@command = LIST_ALL_GROUPS
@@ -38,10 +42,13 @@ class ListCommand
 			holder.list_by_group(@group).each {|task| puts task.to_s_without_group}
 		when LIST_BY_DATE
 			puts "All"
-			arr = @text.split(/\s+/)
-			puts holder.list_due(to_date(arr[-1]))
+			puts @date
+			puts holder.list_due(@date)
+		when LIST_WEEK
+			puts "All"
+			puts holder.list_due(@date)
 		when LIST_ALL_GROUPS
-			a=@holder.list_group
+			a=holder.list_group
 			a.each do |group|
 			puts group
 			(holder.list_by_group(group)).each {|task| puts task.to_s_without_group}

@@ -7,6 +7,6 @@ class FindCommand
 	end
 	def execute(*objects)
 		holder=objects[0]
-		holder.find(text)
+		holder.find(@text)
 	end
 end

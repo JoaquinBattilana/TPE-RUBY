@@ -3,11 +3,12 @@ require_relative "../SaveLoad.rb"
 class SaveCommand
 	include Command
 	def initialize(params)
-		@params=params.join(" ") 
+		raise NotSupportedCommand if params.empty?
+		@filename=params.join(" ")
 	end
 
 	def execute(*objects)
 		holder=objects[0]
-		SaveLoad.save(@params,1,holder)
+		new_holder=SaveLoad.save(@filename,holder)
 	end
 end

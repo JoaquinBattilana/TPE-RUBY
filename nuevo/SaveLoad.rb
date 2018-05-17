@@ -1,25 +1,21 @@
 require "yaml"
 
 class SaveLoad 
-	@@PATH="/"
+	@@PATH="./"
 	def initialize
 		throw "Cant instantiate this class"
 	end
-	def self.save(filename, keys, **args)
-		file=File.new(@@PATH+file_name, "w+")
-		hash = Hash.new()
-		keys.each_with_index do |x,i|
-		hash[x]=args[i]
-		end
-		file.syswrite(YAML.dump(hash))
+	def self.save(filename, object)
+		file=File.new(@@PATH+filename, "w+")
+		file.syswrite(YAML.dump(object))
 		file.close()
 	end
 	
-	def self.load(filename)
+	def self.load(filename,type)
 		file=File.read(filename)
-		hash=YAML.load(file)
-		throw CorruptedFile unless hash.instance_of?(Hash)
-		hash
+		object=YAML.load(file)
+		raise CorruptedFile unless object.is_a?(type)
+		object
 	end
 	def self.set_path(path)
 		@@PATH=path

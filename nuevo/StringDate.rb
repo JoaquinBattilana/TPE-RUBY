@@ -5,11 +5,13 @@ class StringDate
 	attr_reader :date
 	
 	@@PREDEFINED_DATES={"yesterday"=>lambda{Date.today-1}, "tomorrow"=>lambda{Date.today+1}, "today"=>lambda{Date.today}}
-	@@PREDEFINED_RANGES={"this_week"=>(Date.today..Date.today+7)}
+	@@PREDEFINED_RANGES={"this-week" => lambda{StringDate.new("today")..StringDate.new(Date.today+6)}}
 	
 	def initialize(string)
 		if(@@PREDEFINED_DATES.has_key?(string))
 			@date=@@PREDEFINED_DATES[string].call
+		elsif(string.is_a?(Date))
+			@date=string
 		else
 			@date=Date.strptime(string, '%d/%m/%Y')
 		end
@@ -35,8 +37,15 @@ class StringDate
 	end
 	def is_in?(range)
 		if(@@PREDEFINED_RANGES.has_key?(range))
-			return @@PREDEFINED_RANGES[range] === @date
+			return @@PREDEFINED_RANGES[range].call === self
 		end
-		range===@date
+		range===self
+	end
+	def succ()
+		StringDate.new(@date+1)
+	end
+	def +(other)
+		return nil unless other.is_a?(StringDate)
+		new StringDate(@date + other)
 	end
 end

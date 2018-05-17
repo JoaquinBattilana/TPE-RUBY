@@ -4,8 +4,8 @@ require_relative "StringDate.rb"
 class Task
 	include Comparable
 
-	attr_reader :id, :description, :complete, :expiration_date, :group
-	def initialize(id,description,expiration_date=nil,group="")
+	attr_reader :id, :description, :expiration_date, :group, :complete
+	def initialize(id,description,expiration_date=nil,group=nil)
 		@description=description
 		@id=id
 		@complete=0  #usamos un integer en vez de un boolean porque integer tiene implementado el metodo <=> (spaceship) y boolean no.
@@ -13,14 +13,14 @@ class Task
 		@group=group
 	end
 	
-	def complete
+	def completed
 		@complete=1
 	end
 	def complete?
 		@complete == 1
 	end
 	def to_s
-		"%3s["%(@id) + (@complete? "x" : " ") + "]  %10s  #{@group} #{@description}" %(@date)
+		"%3s["%(@id) + (self.complete?() ? "x" : " ") + "] %10s "%(@expiration_date) + (@group.nil? ? "" : "+#{@group} ") + "#{@description}"
 	end
 	def ==(other)
 		return false unless other.is_a?(Task)
@@ -41,7 +41,7 @@ class Task
 		c
 	end
 	def to_s_without_group
-		"%3s["%(@id)+(@complete==1? "x":" ")+"]  %10s  #{@description}" %(@date)
+		"%3s["%(@id)+(self.complete?() ? "x":" ")+"]  %10s  #{@description}" %(@expiration_date)
 	end
 	def hash()
 		[@id].hash

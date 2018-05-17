@@ -4,8 +4,9 @@ require_relative "Task.rb"
 require 'yaml' 
 
 class TaskHolder
-	
-	def initialize 
+	attr_reader :set, :id, :set_expiration_date, :set_group
+
+	def initialize
 		@set = SortedSet.new()
 		@id=1
 		@set_expiration_date=nil
@@ -15,7 +16,6 @@ class TaskHolder
 		expiration_date=@set_expiration_date if expiration_date == nil
 		group=@set_group if group == nil
 		new_task=Task.new(@id,description,expiration_date,group)
-		puts new_task.group
 		@set.add(new_task)
 		@id +=1
 		@id-1
@@ -29,19 +29,14 @@ class TaskHolder
 		refresh_task(task)
 		true
 	end
-	def complete?(id)
-		task=find_task_by_id(id)
-		task.complete?
-	end
 	def ac
 		@set.each do |task|
 			@set.delete(task) if task.complete?
 		end
 	end
-	def list_due (up_to)
-		yesterday=StringDate.new("yesterday")
+	def list_due (string)
 		@set.find_all do |task|
-		((task.expiration_date <=> (up_to + 1)) == -1) && ((task.expiration_date <=> yesterday) == 1)
+		task.expiration_date.is_in?(string)
 		end
 	end
 	def list_overdue
@@ -64,7 +59,13 @@ class TaskHolder
 	def set_group (group)
 		@set_group=group
 	end
-	
+
+	def complete(task)
+		return false if task.complete?
+		refresh_task(task)
+		true
+	end
+
 	def find (text)
 		@set.find_all do |task|
 		task.description.upcase.include? text.upcase
@@ -75,8 +76,15 @@ class TaskHolder
 	end
 	private def refresh_task(task)
 		@set.delete(task)
-		task.complete()
+		task.completed()
 		@set.add(task)
+	end
+
+	def set_state(holder)
+		@set=holder.set()
+		@id=holder.id
+		@set_expiration_date=nil
+		@set_group=nil
 	end
 
 	def isEmpty?
