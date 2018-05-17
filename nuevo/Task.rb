@@ -17,10 +17,10 @@ class Task
 		@complete=1
 	end
 	def complete?
-		@complete==1
+		@complete == 1
 	end
 	def to_s
-		"%3s["%(@id)+(@complete? "x":" ")+"]  %10s  +#{@group} #{@description}" %(@date)
+		"%3s["%(@id) + (@complete? "x" : " ") + "]  %10s  #{@group} #{@description}" %(@date)
 	end
 	def ==(other)
 		return false unless other.is_a?(Task)
