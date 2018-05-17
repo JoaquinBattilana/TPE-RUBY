@@ -19,6 +19,3 @@ class Console
 		end
 	end
 end
-
-console=Console.new()
-console.start()
