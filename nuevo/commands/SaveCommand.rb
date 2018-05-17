@@ -10,5 +10,6 @@ class SaveCommand
 	def execute(*objects)
 		holder=objects[0]
 		new_holder=SaveLoad.save(@filename,holder)
+		puts "File was saved succesfully"
 	end
 end

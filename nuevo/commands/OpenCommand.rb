@@ -13,6 +13,7 @@ class OpenCommand
 		confirmation=gets.chomp
 		if confirmation=="yes"
 			holder.set_state(new_holder)
+			puts "File was opened succesfully"
 		end
 	end
 end
