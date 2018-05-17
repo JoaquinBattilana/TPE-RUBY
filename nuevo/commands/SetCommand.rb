@@ -5,7 +5,8 @@ class SetCommand
 	include Command
 	DATE = 1
 	GROUP = 2
-	def initialize(params)
+	def initialize(holder, params)
+		@holder= holder
 		@text = params.join(" ")
 		@group = nil
 		@date = nil
@@ -18,8 +19,7 @@ class SetCommand
 		end
 	end
 
-	def execute(*objects)
-		holder = objects[0]
+	def execute()
 		case @command
 		when DATE
 			arr = @text.split(/\s+/)
@@ -30,15 +30,15 @@ class SetCommand
 				@date = nil
 				puts "Fixed-date removed"
 			end
-			holder.set_date(@date)
+			@holder.set_date(@date)
 		when GROUP
 			arr = @text.split(/\s+/)
 			if(arr[-1] != 'group')
 				@group = arr[-1]
-				holder.set_group(@group)
+				@holder.set_group(@group)
 				puts "Group set to #{@group}"
 			else
-				holder.set_group("")
+				@holder.set_group(nil)
 				puts "Fixed-group removed"
 			end
 		end
