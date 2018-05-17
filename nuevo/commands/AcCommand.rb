@@ -3,7 +3,7 @@ require_relative "Command.rb"
 class AcCommand
 	include Command
 	def initialize(params)
-		throw NotSupportedCommand unless params.empty?
+		raise NotSupportedCommand unless params.empty?
 	end
 
 	def execute(*objects)
