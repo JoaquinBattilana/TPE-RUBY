@@ -3,7 +3,8 @@ require_relative "../StringDate.rb"
 
 class AddCommand
 	include Command
-	def initialize(params)
+	def initialize(holder, params)
+		@holder=holder
 		text=params.join(" ")
 		@group=nil
 		@date=nil
@@ -24,9 +25,8 @@ class AddCommand
 			raise NotSupportedCommand
 		end
 	end
-	def execute(*objects)
-		holder=objects[0]
-		id = holder.add(@description,@date,@group)
+	def execute()
+		id = @holder.add(@description,@date,@group)
 		puts "Todo [#{id}:#{@description}] added."
 	end
 end
