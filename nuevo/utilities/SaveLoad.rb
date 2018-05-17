@@ -13,7 +13,7 @@ class SaveLoad
 	end
 	
 	def self.load(filename,type)
-		file=File.read(filename)
+		file=File.read(@@PATH+filename)
 		object=YAML.load(file)
 		raise CorruptedFile unless object.is_a?(type)
 		object
