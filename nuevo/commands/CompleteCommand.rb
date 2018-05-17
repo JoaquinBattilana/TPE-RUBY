@@ -3,10 +3,10 @@ require_relative "Command.rb"
 class CompleteCommand
 	include Command
 	def initialize(params)
-		@id=params[1]
+		@id=params[0]
 	end
 	def execute(*objects)
 		holder=objects[0]
-		holder.complete(id)
+		holder.complete(@id)
 	end
 end
