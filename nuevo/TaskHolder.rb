@@ -55,7 +55,7 @@ class TaskHolder
 		group
 	end
 	def set_date (date)
-		@set_date=date
+		@set_expiration_date=date
 	end
 	def set_group (group)
 		@set_group=group
